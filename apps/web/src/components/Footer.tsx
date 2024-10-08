@@ -1,6 +1,6 @@
 import React from 'react';
 // import * as ReactIcons from 'react-icons';
-import {FaInstagramSquare,GrLinkedin,FaTwitter,BsGithub} from '../assets/Icons images/icons';
+import {FaInstagramSquare,GrLinkedin,FaTwitter,BsGithub} from '../../public/assets/Icons images/icons';
 
 
 

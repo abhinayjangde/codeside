@@ -14,7 +14,7 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     return (
 
-        <nav className="shadow-md w-full fixed top-0 z-10" >
+        <nav className="shadow-md w-full sticky top-0 z-10" >
             <div className="flex justify-between items-center px-2 py-1 md:px-2 md:py-2  bg-white dark:bg-dark">
                 <div className="flex items-center">
                     <Link href={"/"} className="flex title-font font-medium items-center text-gray-900 mb-1 md:mb-0">
