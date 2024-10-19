@@ -1,11 +1,14 @@
-import HeroSection from '@/components/HeroSection'
-import React from 'react'
 
-const Home = () => {
+
+import {db} from "@/db"
+const Home = async () => {
+  const users = await db.user.findMany()
   return (
-    <>
-      <HeroSection />
-    </>
+    <div>
+      <pre>
+        {JSON.stringify(users, null, 2)}
+      </pre>
+    </div>
   )
 }
 
