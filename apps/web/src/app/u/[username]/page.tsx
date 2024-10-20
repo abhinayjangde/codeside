@@ -67,7 +67,7 @@ const UserProfile: React.FC = ({ params }: any) => {
           />
           <div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-              {username} <span className="text-gray-600 dark:text-gray-300"> : {params.id}</span>
+              {username} <span className="text-gray-600 dark:text-gray-300"> : username :  {params.username}</span>
             </h1>
             <p className="text-gray-600 dark:text-gray-300">Rank: #{rank}</p>
           </div>
