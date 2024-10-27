@@ -40,7 +40,7 @@ const USER_PROFILE_DATA = {
 };
 
 const UserProfile: React.FC = ({ params }: any) => {
-  console.log(params);
+  
   
   const {
     
@@ -56,7 +56,8 @@ const UserProfile: React.FC = ({ params }: any) => {
   } = USER_PROFILE_DATA;
 
   return (
-    <div className="bg-gray-100  dark:bg-gray-900 min-h-screen p-6 ">
+    <div className='dark:bg-dark py-5 bg-gray-50 p-4'>
+     <div className="max-w-screen-lg mx-auto bg-white dark:text-white dark:bg-black/[0.3]  rounded-lg shadow-md p-6 lg:p-10">
       {/* User Information Section */}
       <section className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-8">
         <div className="flex items-center">
@@ -151,6 +152,7 @@ const UserProfile: React.FC = ({ params }: any) => {
           )}
         </div>
       </section>
+    </div>
     </div>
   );
 };

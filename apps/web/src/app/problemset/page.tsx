@@ -64,7 +64,7 @@ const ProblemSet: React.FC = () => {
           <div className="">
             <h1 className="uppercase text-3xl font-semibold my-4 px-2 bg-dark-layer-1 w-fit">Gems For Coders</h1>
             <div className="flex flex-row py-1 gap-1">
-              <Input type="text" placeholder="Search Queustions" className="dark:bg-black text-md focus:outline-none" />
+              <Input type="text" placeholder="Search Queustions" className="bg-white dark:bg-black text-md focus:outline-none" />
               <div className="bg-white border dark:bg-black">
               <Select>
                 <SelectTrigger className="w-[120px] md:w-[180px] font-semibold text-black/[0.7] dark:text-white/[0.7]">
