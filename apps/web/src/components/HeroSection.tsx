@@ -12,7 +12,7 @@ const HeroSection:React.FC = () => {
         </div>
         <div className="text-md text-gray-900 dark:text-gray-300">
           Join elite coders, solve problems, and climb leaderboards at
-          Algorithmic Arena{" "}
+          Codeside Arena{" "}
         </div>
         <div className="flex justify-center flex-col md:flex-row gap-4 mt-4">
           <Link

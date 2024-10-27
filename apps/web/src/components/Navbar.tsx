@@ -4,11 +4,12 @@ import { useTheme } from "next-themes"
 import { VscColorMode } from "react-icons/vsc";
 import { IoMdMenu } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
-
 import Link from 'next/link';
 import Image from 'next/image';
-
-const Navbar = () => {
+import { useSession } from "next-auth/react"
+import { signOut } from "next-auth/react"
+const Navbar: React.FC = () => {
+    const { data: session } = useSession()
     const { setTheme } = useTheme();
     const [mode, setMode] = useState("dark");
     const [isOpen, setIsOpen] = useState(false);
@@ -45,17 +46,24 @@ const Navbar = () => {
                 </div>
                 <div className="text-[16px] flex flex-col md:flex-row gap-2 items-center" >
                     <ul className="hidden md:flex flex-col md:flex-row gap-2">
-                        <li><Link href={"/signup"}>Signup</Link></li>
-                        <li><Link href={"/login"}>Login</Link></li>
-                        <li><Link href={"/login"}>Logout</Link></li>
+                        {
+                            session?.user ? (
+                                <button onClick={()=>{ signOut()}} >Logout</button>
+                            ) : (
+                                <>
+                                    <li><Link href={"/signup"}>Signup</Link></li>
+                                    <li><Link href={"/login"}>Login</Link></li>
+                                </>
+                            )
+                        }
                     </ul>
                     <div className="flex items-center gap-2">
 
                         <VscColorMode onClick={() => { if (mode === "dark") { setTheme("light"); setMode("light"); } else { setTheme("dark"); setMode("dark"); } }} className="text-3xl cursor-pointer" />
 
                         {
-                            isOpen ?<IoMdClose onClick={() => setIsOpen(!isOpen)} className="md:hidden text-4xl cursor-pointer"/> : 
-                            <IoMdMenu onClick={() => setIsOpen(!isOpen)} className="md:hidden text-4xl cursor-pointer" />
+                            isOpen ? <IoMdClose onClick={() => setIsOpen(!isOpen)} className="md:hidden text-4xl cursor-pointer" /> :
+                                <IoMdMenu onClick={() => setIsOpen(!isOpen)} className="md:hidden text-4xl cursor-pointer" />
                         }
 
                     </div>
@@ -67,9 +75,17 @@ const Navbar = () => {
                     <li><Link href={"/problemset"} >Problems</Link></li>
                     <li><Link href={"/contests"} >Contests</Link></li>
                     <li><Link href={"/contact"} >Contact</Link></li>
-                    <li><Link href={"/signup"} >Signup</Link></li>
-                    <li><Link href={"/login"} >Login</Link></li>
-                    <li><button >Logout</button></li>
+                    {
+                        session?.user ? (
+                            <li><button >Logout</button></li>
+                        ) : (
+                            <>
+                                <li><Link href={"/signup"}>Signup</Link></li>
+                                <li><Link href={"/login"}>Login</Link></li>
+                            </>
+                        )
+                    }
+
                 </ul>
             </div>
         </nav>

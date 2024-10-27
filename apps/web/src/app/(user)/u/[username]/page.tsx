@@ -1,5 +1,4 @@
 import React from "react";
-
 // Mock Data as a constant
 const USER_PROFILE_DATA = {
   
@@ -39,12 +38,10 @@ const USER_PROFILE_DATA = {
   ],
 };
 
-const UserProfile: React.FC = ({ params }: any) => {
-  
-  
+const UserProfile: React.FC = async ({ params }: any) => {
+  const { username } = await params;
+
   const {
-    
-    username,
     profileImage,
     problemsSolved,
     submissionAccuracy,
@@ -60,20 +57,20 @@ const UserProfile: React.FC = ({ params }: any) => {
      <div className="max-w-screen-lg mx-auto bg-white dark:text-white dark:bg-black/[0.3]  rounded-lg shadow-md p-6 lg:p-10">
       {/* User Information Section */}
       <section className="bg-white dark:bg-dark p-6 rounded-lg shadow-md mb-8">
-        <div className="flex items-center">
-          <img
-            src={profileImage}
-            alt="Profile"
-            className="w-24 h-24 rounded-full mr-6"
-          />
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-              {username} <span className="text-gray-600 dark:text-gray-300"> : username :  {params.username}</span>
-            </h1>
-            <p className="text-gray-600 dark:text-gray-300">Rank: #{rank}</p>
+          <div className="flex items-center">
+            <img
+              src={profileImage}
+              alt="Profile"
+              className="w-24 h-24 rounded-full mr-6"
+            />
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                <span className="text-gray-600 dark:text-gray-300">{username}</span>
+              </h1>
+              <p className="text-gray-600 dark:text-gray-300">Rank: #{rank}</p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* Badges Section */}
       <section className="bg-white dark:bg-dark p-6 rounded-lg shadow-md mb-8">
