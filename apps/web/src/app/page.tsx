@@ -1,14 +1,19 @@
+import HeroSection from "@/components/HeroSection"
+import PlatformFeatures from "@/components/PlatformFeatures"
+import SupportedLanguages from "@/components/SupportedLanguages"
+import Testimonial from "@/components/Testimonial"
 
 
-import {db} from "@/db"
-const Home = async () => {
-  const users = await db.user.findMany()
+const Home:React.FC = () => {
+ 
   return (
-    <div>
-      <pre>
-        {JSON.stringify(users, null, 2)}
-      </pre>
-    </div>
+    <>
+    
+    <HeroSection/>
+    <SupportedLanguages/>
+    <PlatformFeatures/>
+    <Testimonial/>
+    </>
   )
 }
 
