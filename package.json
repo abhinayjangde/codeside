@@ -8,7 +8,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "db:studio": "cd packages/db && pnpm dlx prisma studio",
     "db:migrate": "cd packages/db && pnpm dlx prisma migrate dev",
-    "db:seed": "cd packages/db && pnpm dlx ts-node src/seed.ts"
+    "db:seed": "cd packages/db && pnpm dlx ts-node src/seed.ts",
+    "db:generate": "cd packages/db && pnpm dlx prisma generate"
   },
   "devDependencies": {
     "prettier": "^3.2.5",

@@ -1,66 +1,86 @@
-"use client"
-import React, { useEffect } from 'react'
+"use client";
+import { useState } from "react";
 
 const Contact: React.FC = () => {
-  useEffect(() => {
-    document.title = 'Contact Us - CodeSide - The right way to learn coding'
-  }, [])
-
+  const [loading, setLoading] = useState(false);
   return (
-    <div className="dark:bg-dark py-5 bg-gray-50 p-4">
-      <div className="max-w-screen-lg mx-auto bg-white dark:text-white dark:bg-dark rounded-lg  p-6 lg:p-10">
-        <h1 className="text-center text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-800 dark:text-white mb-2 border-b pb-2">
-          Contact Us
+    <section className="sm:h-[50rem] text-gray-600 dark:text-white dark:bg-dark body-font relative">
+    <div className="container px-5 py-24 mx-auto">
+      <div className="flex flex-col text-center w-full mb-12">
+        <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 dark:text-white text-gray-900">
+          CONTACT US
         </h1>
-        <p className="bg-slate-200 text-center dark:bg-black/[0.3] mb-4 px-2 py-1 md:inline-block">
-          We’re here to help! Reach out with any questions or feedback.
+        <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
+          Connect with Us: Your Gateway to Support, Solutions, and Success!
         </p>
+      </div>
+      <div className="lg:w-1/2 md:w-2/3 mx-auto">
+        <div className="flex flex-wrap -m-2">
+          <div className="p-2 w-1/2">
+            <div className="relative">
+              <label htmlFor="name" className="leading-7 text-sm dark:text-white text-gray-600">
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                className="w-full bg-transparent bg-opacity-50 rounded border border-gray-300 dark:focus:bg-dark focus:border-indigo-500 focus:bg-white focus:ring-2 dark:text-white focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              />
+            </div>
+          </div>
+          <div className="p-2 w-1/2">
+            <div className="relative">
+              <label htmlFor="email" className="leading-7 text-sm dark:text-white text-gray-600">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                className="w-full bg-transparent bg-opacity-50 rounded border border-gray-300 dark:focus:bg-dark focus:border-indigo-500 focus:bg-white focus:ring-2 dark:text-white focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              />
+            </div>
+          </div>
+          <div className="p-2 w-full">
+            <div className="relative">
+              <label
+                htmlFor="message"
+                className="leading-7 text-sm dark:text-white text-gray-600"
+              >
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                className="w-full bg-transparent rounded border border-gray-300 focus:border-indigo-500 dark:focus:bg-dark focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none dark:text-white text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
+                defaultValue={""}
+              />
+            </div>
+          </div>
+          <div className="p-2 w-full">
+            {
+              loading ? (
+                <button disabled className="flex mx-auto uppercase transition duration-150 ease-in-out disabled:opacity-70 text-black dark:text-white border dark:border-white border-black py-2 px-8 focus:outline-none  rounded text-lg">
+                  <div
+                    className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] mt-[0.45rem]"
+                    role="status"></div>
+                  <span className="ml-3 text-lg">Loading...</span>
+                </button>
 
-        <form className="space-y-6">
-          <div>
-            <label className="block text-gray-800 dark:text-gray-300 mb-1" htmlFor="name">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              className="w-full p-3 bg-gray-100 dark:bg-black/[0.3] dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Your Name"
-            />
+              ) : (
+
+                <button className="flex mx-auto border-[1px] border-gray-600 text-black dark:text-white px-4 py-2 rounded-sm bg-[#4E7AFF]">
+                  Submit
+                </button>
+              )
+            }
           </div>
 
-          <div>
-            <label className="block text-gray-800 dark:text-gray-300 mb-1" htmlFor="email">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="w-full p-3 bg-gray-100 dark:bg-black/[0.3] dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Your Email"
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-800 dark:text-gray-300 mb-1" htmlFor="message">
-              Message
-            </label>
-            <textarea
-              id="message"
-              className="w-full p-3 h-32 bg-gray-100 dark:bg-black/[0.3] dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Write your message here"
-            ></textarea>
-          </div>
-
-          <button
-            type="submit"
-            className="w-fit-content bg-blue-600 text-white font-semibold py-3 px-6 mx-auto rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 block"
-          >
-            Send Message
-          </button>
-        </form>
+        </div>
       </div>
     </div>
+  </section>
   )
 }
 
