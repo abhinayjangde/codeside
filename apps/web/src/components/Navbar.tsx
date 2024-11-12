@@ -30,10 +30,10 @@ const Navbar: React.FC = () => {
                             loading="lazy"
                             style={{ color: "transparent" }}
                         />
-                        <span className="block sm:hidden underline dark:decoration-white underline-offset-8 ml-3 text-xl tracking-tighter text-black dark:text-gray-200 dark:hover:text-white">
+                        <span className="block sm:hidden dark:decoration-white underline-offset-8 ml-3 text-xl tracking-tighter text-black dark:text-gray-200 dark:hover:text-white">
                             CS
                         </span>
-                        <span className="hidden sm:block underline dark:decoration-white underline-offset-8 ml-3 text-xl tracking-tighter text-black dark:text-gray-200 dark:hover:text-white">
+                        <span className="hidden sm:block dark:decoration-white underline-offset-8 ml-3 text-xl tracking-tighter text-black dark:text-gray-200 dark:hover:text-white">
                             CODESIDE
                         </span>
                     </Link>
