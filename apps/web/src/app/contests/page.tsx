@@ -10,10 +10,10 @@ const contestData = [
 ];
 
 // Get time remaining until start
-const getTimeRemaining = (startDate:  any) => {
-  const start:any = new Date(startDate);
-  const now:any = new Date();
-  const diff:any = start - now;
+const getTimeRemaining = (startDate: any) => {
+  const start: any = new Date(startDate);
+  const now: any = new Date();
+  const diff: any = start - now;
 
   if (diff <= 0) return "Started";
 
@@ -26,12 +26,12 @@ const getTimeRemaining = (startDate:  any) => {
 // Separate upcoming and past contests
 const getUpcomingContests = () => {
   const currentDate = new Date();
-  return contestData.filter(contest => new Date(contest.startDate) >= currentDate);
+  return contestData.filter((contest) => new Date(contest.startDate) >= currentDate);
 };
 
 const getPastContests = () => {
   const currentDate = new Date();
-  return contestData.filter(contest => new Date(contest.startDate) < currentDate);
+  return contestData.filter((contest) => new Date(contest.startDate) < currentDate);
 };
 
 const ContestsPage: React.FC = () => {
@@ -39,24 +39,26 @@ const ContestsPage: React.FC = () => {
   const pastContests = getPastContests();
 
   return (
-    <section className="bg-white dark:bg-dark md:m-0 py-10 md:py-20">
-      <div className="mx-auto px-4 md:px-6 flex flex-col justify-center items-center gap-8">
-        
+    <section className="bg-white dark:bg-dark py-10 md:py-20">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col gap-8">
         {/* Main Heading */}
-        <h1 className="text-4xl uppercase md:text-5xl font-bold mb-8">Contests</h1>
-        
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center uppercase mb-8">
+          Contests
+        </h1>
+
         {/* Upcoming Contests Section */}
-        <div className="w-full max-w-3xl">
-          <h2 className="text-3xl font-semibold mb-4">Upcoming Contests</h2>
+        <div className="w-full">
+          <h2 className="text-xl md:text-2xl font-semibold mb-4">Upcoming Contests</h2>
           {upcomingContests.length > 0 ? (
-            <div className="overflow-x-auto shadow-lg rounded-lg mb-10">
-              <table className="min-w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <div className="overflow-x-auto">
+              <table className="w-full table-auto border border-gray-200 dark:border-gray-700 shadow-md rounded-lg">
                 <thead className="bg-gray-100 dark:bg-gray-700">
                   <tr>
                     <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">ID</th>
                     <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">Contest Name</th>
-                    <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">Start Date & Time</th>
-                    <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">Starts In</th>
+                    <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">
+                      Start Date & Time (Starts In)
+                    </th>
                     <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">Duration (hrs)</th>
                     <th className="py-3 px-4 text-center text-gray-700 dark:text-gray-300 font-semibold">Action</th>
                   </tr>
@@ -66,13 +68,18 @@ const ContestsPage: React.FC = () => {
                     <tr key={contest.id} className="border-t border-gray-200 dark:border-gray-700">
                       <td className="py-3 px-4 text-gray-900 dark:text-gray-200">{contest.id}</td>
                       <td className="py-3 px-4 text-gray-900 dark:text-gray-200">{contest.title}</td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-400">
-                        {new Date(contest.startDate).toLocaleString()}
+                      <td className="py-3 px-4 text-gray-600 dark:text-gray-400 whitespace-nowrap flex items-center">
+                        {new Date(contest.startDate).toLocaleString()}{" "}
+                        <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
+                          ({getTimeRemaining(contest.startDate)})
+                        </span>
                       </td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-400">{getTimeRemaining(contest.startDate)}</td>
                       <td className="py-3 px-4 text-gray-600 dark:text-gray-400">{contest.duration}</td>
                       <td className="py-3 px-4 text-center">
-                        <Link href={`/contests/${contest.id}`} className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+                        <Link
+                          href={`/contests/${contest.id}`}
+                          className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+                        >
                           Join Contest
                         </Link>
                       </td>
@@ -87,16 +94,18 @@ const ContestsPage: React.FC = () => {
         </div>
 
         {/* Past Contests Section */}
-        <div className="w-full max-w-3xl">
-          <h2 className="text-3xl font-semibold mb-4">Past Contests</h2>
+        <div className="w-full">
+          <h2 className="text-xl md:text-2xl font-semibold mb-4">Past Contests</h2>
           {pastContests.length > 0 ? (
-            <div className="overflow-x-auto shadow-lg rounded-lg">
-              <table className="min-w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <div className="overflow-x-auto">
+              <table className="w-full table-auto border border-gray-200 dark:border-gray-700 shadow-md rounded-lg">
                 <thead className="bg-gray-100 dark:bg-gray-700">
                   <tr>
                     <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">ID</th>
                     <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">Contest Name</th>
-                    <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">Start Date & Time</th>
+                    <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">
+                      Start Date & Time
+                    </th>
                     <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">Duration (hrs)</th>
                     <th className="py-3 px-4 text-center text-gray-700 dark:text-gray-300 font-semibold">Action</th>
                   </tr>
@@ -106,12 +115,15 @@ const ContestsPage: React.FC = () => {
                     <tr key={contest.id} className="border-t border-gray-200 dark:border-gray-700">
                       <td className="py-3 px-4 text-gray-900 dark:text-gray-200">{contest.id}</td>
                       <td className="py-3 px-4 text-gray-900 dark:text-gray-200">{contest.title}</td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-400">
+                      <td className="py-3 px-4 text-gray-600 dark:text-gray-400 whitespace-nowrap">
                         {new Date(contest.startDate).toLocaleString()}
                       </td>
                       <td className="py-3 px-4 text-gray-600 dark:text-gray-400">{contest.duration}</td>
                       <td className="py-3 px-4 text-center">
-                        <Link href={`/contests/${contest.id}`}  className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+                        <Link
+                          href={`/contests/${contest.id}`}
+                          className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+                        >
                           View Contest
                         </Link>
                       </td>

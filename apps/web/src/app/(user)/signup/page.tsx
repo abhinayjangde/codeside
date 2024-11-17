@@ -16,10 +16,10 @@ const Signup: React.FC = () => {
     <div>
       <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
 
-      <section className="text-gray-600 body-font">
+      <section className="text-gray-900 dark:text-gray-100 body-font">
         <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
           <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
-            <h1 className="title-font font-medium text-3xl text-gray-900">
+            <h1 className="title-font font-medium text-3xl text-gray-900 dark:text-gray-100">
               Slow-carb next level shoindcgoitch ethical authentic, poko scenester
             </h1>
             <p className="leading-relaxed mt-4">
@@ -27,8 +27,8 @@ const Signup: React.FC = () => {
               hammock starladder roathse. Craies vegan tousled etsy austin.
             </p>
           </div>
-          <div className="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
-            <h2 className="text-gray-900 text-lg font-medium title-font mb-5">
+          <div className="lg:w-2/6 md:w-1/2 bg-gray-100 dark:bg-gray-800 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+            <h2 className="text-gray-900 dark:text-gray-100 text-lg font-medium title-font mb-5">
               Sign Up
             </h2>
             <form action={async (formData: FormData) => {
