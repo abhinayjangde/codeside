@@ -1,19 +1,34 @@
-import prisma from "./index";
-async function main() {
-    await prisma.user.create({
-        data: {
-            name: 'Default User',
-            email: 'defaultuser@example.com',
-            password: 'securepassword', // Ensure this is hashed in a real application
-        },
-    });
-}
+import prismaClient from ".";
+import { LANGUAGE_MAPPING } from "@repo/common/languages";
+import { addProblemsInDB } from "./updateQuestion";
+import languages from "./languages";
 
-main()
-    .catch((e) => {
-        console.error(e);
-        process.exit(1);
+(async () => {
+  try {
+    await prismaClient.language.createMany({
+      data: Object.keys(LANGUAGE_MAPPING).map((language) => ({
+        id: LANGUAGE_MAPPING[language].internal,
+        name: language,
+        judge0Id: LANGUAGE_MAPPING[language].judge0,
+      })),
     })
-    .finally(async () => {
-        await prisma.$disconnect();
-    });
+  } catch (e) {
+    console.log("Languages already persist in the DB!");
+
+  }
+})();
+(async () => {
+  try {
+    await prismaClient.languages.createMany({ data: languages })
+  }
+  catch (e) {
+    console.log("Languages2 already persist in the DB!");
+  }
+}
+)();
+try {
+  addProblemsInDB();
+}
+catch (e) {
+  console.log("Data already persist in the DB!")
+}

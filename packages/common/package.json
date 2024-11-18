@@ -1,11 +1,11 @@
 {
   "name": "@repo/common",
-  "version": "1.0.0",
-  "description": "",
   "exports":{
-     "./language": "./language/index.ts",
+    "./languages": "./languages/index.ts",
     "./zod": "./zod/index.ts"
   },
+  "version": "1.0.0",
+  "description": "",
   "keywords": [],
   "author": "Abhinay Jangde",
   "license": "ISC",

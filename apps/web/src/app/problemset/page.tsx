@@ -17,10 +17,12 @@ import {
 import topInterview150 from "../../../public/studyplan/top-interview-150.png"
 import codeside75 from "../../../public/studyplan/codeside-75.png"
 import daysjs30 from "../../../public/studyplan/30-days-of-javascript.png"
+import { useSession } from "next-auth/react"
 
 const ProblemSet: React.FC = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date())
-
+  const { data: session } = useSession()
+  console.log("session", session)
   return (
     <>
       <div className="min-h-screen w-full dark:bg-black bg-white dark:bg-grid-white/[0.1] bg-grid-black/[0.1]">
