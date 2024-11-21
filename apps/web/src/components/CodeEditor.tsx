@@ -31,12 +31,14 @@ export interface IProblem {
 
 
 const CodeEditor = ({
-    problem,
-    contestId,
-  }: {
-    problem: IProblem;
-    contestId?: string;
-  }) => {
+  problem,
+  contestId,
+}: {
+  problem: IProblem;
+  contestId?: string;
+}) => {
+
+ 
   return (
     <div>CodeEditor</div>
   )

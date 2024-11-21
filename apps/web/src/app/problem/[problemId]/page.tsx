@@ -14,27 +14,21 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion"
 import Link from "next/link"
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import { GoCodeSquare } from "react-icons/go";
 import { MdDescription } from "react-icons/md";
 import { IoTimeOutline } from "react-icons/io5";
 import { AiOutlineExperiment } from "react-icons/ai";
 import { FaCode } from "react-icons/fa6";
 import CodeEditor from '@/components/CodeEditor'
+import LanguageMenu from '@/components/LanguageMenu'
 
-const Problem = async ({ params: { problemId } }: { params: { problemId: string } }) => {
+const Problem = async ({ params }: { params: { problemId: string } }) => {
+    const { problemId } = await params;
     const problem = await getProblem(problemId)
     if (!problem) {
         return <div>Problem Not Found</div>
     }
+
     return (
         <>
             <ResizablePanelGroup
@@ -72,20 +66,7 @@ const Problem = async ({ params: { problemId } }: { params: { problemId: string 
                                         <FaCode className="text-green-500 text-xl" />
                                         <h6 className="font-semibold">Code</h6>
                                     </div>
-                                    <Select>
-                                        <SelectTrigger className="w-[100px] dark:bg-slate">
-                                            <SelectValue className="font-semibold" placeholder="C++" />
-                                        </SelectTrigger>
-                                        <SelectContent className="dark:bg-slate">
-                                            <SelectGroup>
-                                                <SelectItem value="cpp">C++</SelectItem>
-                                                <SelectItem value="python">Python</SelectItem>
-                                                <SelectItem value="javascript">Javascript</SelectItem>
-                                                <SelectItem value="java">Java</SelectItem>
-                                                <SelectItem value="rust">Rust</SelectItem>
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+                                    <LanguageMenu/>
                                 </div>
                                 <CodeEditor problem={problem} />
                             </div>
