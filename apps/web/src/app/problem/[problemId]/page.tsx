@@ -18,9 +18,9 @@ import { GoCodeSquare } from "react-icons/go";
 import { MdDescription } from "react-icons/md";
 import { IoTimeOutline } from "react-icons/io5";
 import { AiOutlineExperiment } from "react-icons/ai";
-import { FaCode } from "react-icons/fa6";
+
 import CodeEditor from '@/components/CodeEditor'
-import LanguageMenu from '@/components/LanguageMenu'
+import EditorBar from '@/components/EditorBar'
 
 const Problem = async ({ params }: { params: { problemId: string } }) => {
     const { problemId } = await params;
@@ -61,13 +61,7 @@ const Problem = async ({ params }: { params: { problemId: string } }) => {
                     <ResizablePanelGroup direction="vertical">
                         <ResizablePanel defaultSize={75}>
                             <div className="h-full border border-gray-500 rounded-md dark:bg-dark">
-                                <div className="flex justify-between px-2 border-b border-gray-300 dark:bg-slate">
-                                    <div className="flex gap-2 font-semibold justify-center items-center">
-                                        <FaCode className="text-green-500 text-xl" />
-                                        <h6 className="font-semibold">Code</h6>
-                                    </div>
-                                    <LanguageMenu/>
-                                </div>
+                                <EditorBar />
                                 <CodeEditor problem={problem} />
                             </div>
                         </ResizablePanel>
