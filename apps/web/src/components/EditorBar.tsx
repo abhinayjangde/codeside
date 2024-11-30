@@ -44,9 +44,10 @@ const EditorBar = () => {
             <button
              type="submit"
              >
-                {
+                {/* {
                     session?.user?.name
-                }
+                } */}
+                Submit
              </button>
             </div>
 
