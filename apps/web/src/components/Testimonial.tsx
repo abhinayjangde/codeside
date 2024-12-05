@@ -4,7 +4,12 @@ import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 const Testimonial: React.FC = () => {
   return (
     <div className="h-[40rem] flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center overflow-hidden">
-      <h1 className="dark:text-white text-black sm:text-4xl text-3xl mb-10 uppercase font-bold">Testimonials</h1>
+      <div className="my-4 md:my-10 flex flex-col md:gap-2 items-center justify-center text-black dark:text-white">
+        <h4 className="sm:text-4xl text-2xl font-medium title-font uppercase">
+          Testimonials
+        </h4>
+        <h6 className="font-semibold text-sm md:text-lg text-center opacity-75">this is dummy data :)</h6>
+      </div>
       <InfiniteMovingCards
         items={testimonials}
         direction="right"

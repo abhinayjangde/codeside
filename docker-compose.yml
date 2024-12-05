@@ -1,37 +1,51 @@
-x-logging:
-  &default-logging
-  logging:
-    driver: json-file
-    options:
-      max-size: 100M
+name: codeside
 
 services:
+  db:
+    image: postgres:alpine
+    container_name: db
+    restart: always
+    env_file: judge0.conf
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: none
+
   server:
     image: judge0/judge0:1.13.1
     volumes:
       - ./judge0.conf:/judge0.conf:ro
+      - type: bind
+        source: "D:\\webdevr\\codeside\\apps\\problems"
+        target: /dev/problems
     ports:
       - "2358:2358"
     privileged: true
-    <<: *default-logging
     restart: always
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
 
   workers:
     image: judge0/judge0:1.13.1
     command: ["./scripts/workers"]
     volumes:
       - ./judge0.conf:/judge0.conf:ro
+      - type: bind
+        source: "D:\\webdevr\\codeside\\apps\\problems"
+        target: /dev/problems
     privileged: true
-    <<: *default-logging
     restart: always
-
-  db:
-    image: postgres:16.2
-    env_file: judge0.conf
-    volumes:
-      - data:/var/lib/postgresql/data/
-    <<: *default-logging
-    restart: always
+    logging:
+      driver: none
 
   redis:
     image: redis:7.2.4
@@ -40,8 +54,14 @@ services:
       'docker-entrypoint.sh --appendonly no --requirepass "$$REDIS_PASSWORD"'
     ]
     env_file: judge0.conf
-    <<: *default-logging
     restart: always
-
+    ports: 
+      - '6379:6379'
+    logging:
+      driver: none
+    volumes:
+      - cache:/data
 volumes:
-  data:
+  postgres_data:
+  cache:
+    driver: local
