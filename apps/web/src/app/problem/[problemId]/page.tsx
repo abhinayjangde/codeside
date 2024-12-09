@@ -18,9 +18,16 @@ import { GoCodeSquare } from "react-icons/go";
 import { MdDescription } from "react-icons/md";
 import { IoTimeOutline } from "react-icons/io5";
 import { AiOutlineExperiment } from "react-icons/ai";
-
+import { Metadata } from "next";
 import CodeEditor from '@/components/CodeEditor'
-import EditorBar from '@/components/EditorBar'
+
+export const generateMetadata = async ({ params }: { params: { problemId: string } }): Promise<Metadata> => {
+    const problem = await getProblem(params.problemId);
+    if (!problem) {
+        return { title: "Problem Not Found" };
+    }
+    return { title: problem.title || "Problem Details" };
+};
 
 const Problem = async ({ params }: { params: { problemId: string } }) => {
     const { problemId } = await params;
@@ -61,7 +68,6 @@ const Problem = async ({ params }: { params: { problemId: string } }) => {
                     <ResizablePanelGroup direction="vertical">
                         <ResizablePanel defaultSize={75}>
                             <div className="h-full border border-gray-500 rounded-md dark:bg-dark">
-                                <EditorBar />
                                 <CodeEditor problem={problem} />
                             </div>
                         </ResizablePanel>

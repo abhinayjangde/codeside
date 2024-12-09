@@ -2,7 +2,16 @@
 import { useEffect, useState } from "react";
 import { LANGUAGE_MAPPING } from "@repo/common/languages";
 import Editor from "@monaco-editor/react";
-
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { FaCode } from "react-icons/fa6";
 import { submissions as SubmissionsType } from "@prisma/client";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { Label } from "@repo/ui/label";
@@ -30,7 +39,7 @@ export interface IProblem {
   }[];
 }
 
-
+// Main function
 const CodeEditor = ({
   problem,
   contestId,
@@ -41,13 +50,13 @@ const CodeEditor = ({
 
   const [language, setLanguage] = useState(
     Object.keys(LANGUAGE_MAPPING)[0] as string
-);
+  );
   const [code, setCode] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<string>(SubmitStatus.SUBMIT);
   const [testcases, setTestcases] = useState<any[]>([]);
   const [token, setToken] = useState<string>("");
   const { data: session } = useSession()
-  
+
   // Setting default code
   useEffect(() => {
     const defaultCode: { [key: string]: string } = {};
@@ -61,27 +70,55 @@ const CodeEditor = ({
     setCode(defaultCode);
   }, [problem]);
 
- 
+
   return (
     <div>
-      <div>
-        
+       {/* Top Editor Bar  */}
+      <div className="flex justify-between px-2 border-b border-gray-300 dark:bg-slate">
+        <Select
+          value={language}
+          defaultValue="js"
+          onValueChange={(value) => setLanguage(value)}
+        >
+          <SelectTrigger className="w-[100px] dark:bg-slate">
+            <SelectValue className="font-semibold" placeholder="C++" />
+          </SelectTrigger>
+          <SelectContent className="dark:bg-slate">
+            <SelectGroup>
+              {Object.keys(LANGUAGE_MAPPING).map((language) => (
+                <SelectItem key={language} value={language}>
+                  {LANGUAGE_MAPPING[language]?.name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <div className="flex justify-center font-semibold items-center gap-2 text-green-500">
+          <FaCode />
+          <button
+            type="submit"
+          >
+            Submit
+          </button>
+        </div>
+
       </div>
+      {/* Code Editor */}     
       <Editor
-       height={"80vh"}
-       value={code[language]}
-       theme="vs-dark"
-       onMount={() => { }}
-       options={{
-         fontSize: 19,
-         scrollBeyondLastLine: false,
-       }}
-       language={LANGUAGE_MAPPING[language]?.monaco}
-       onChange={(value) => {
-         //@ts-ignore
-         setCode({ ...code, [language]: value });
-       }}
-       defaultLanguage="javascript"
+        height={"80vh"}
+        value={code[language]}
+        theme="vs-dark"
+        onMount={() => {}}
+        options={{
+          fontSize: 19,
+          scrollBeyondLastLine: false,
+        }}
+        language={LANGUAGE_MAPPING[language]?.monaco}
+        onChange={(value) => {
+          //@ts-ignore
+          setCode({ ...code, [language]: value });
+        }}
+        defaultLanguage="javascript"
       />
 
     </div>
