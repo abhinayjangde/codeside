@@ -11,11 +11,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+import { GoCodeSquare } from "react-icons/go";
 import { FaCode } from "react-icons/fa6";
 import { submissions as SubmissionsType } from "@prisma/client";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { Label } from "@repo/ui/label";
 import { useSession } from "next-auth/react"
+import { Button } from "./ui/button";
+import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TURNSTILE_SITE_KEY =
   process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY ||
@@ -70,59 +80,137 @@ const CodeEditor = ({
     setCode(defaultCode);
   }, [problem]);
 
+  async function pollWithBackoff(id: string, retries: number) {
+    if (retries === 0) {
+      setStatus(SubmitStatus.SUBMIT);
+      toast.error("Not able to get status ");
+      return;
+    }
 
+    const response = await axios.get(`/api/submission/?id=${id}`);
+
+    console.log(response.data.submission);
+    if (response.data.submission.status === "PENDING") {
+      setTestcases(response.data.submission.testcases);
+      await new Promise((resolve) => setTimeout(resolve, 2.5 * 1000));
+      pollWithBackoff(id, retries - 1);
+    } else {
+      if (response.data.submission.status === "AC") {
+        setStatus(SubmitStatus.ACCEPTED);
+        setTestcases(response.data.submission.testcases);
+        toast.success("Accepted!");
+        return;
+      } else {
+        setStatus(SubmitStatus.FAILED);
+        toast.error("Failed :(");
+        setTestcases(response.data.submission.testcases);
+        return;
+      }
+    }
+  }
+
+  // submit function
+  async function submit() {
+    setStatus(SubmitStatus.PENDING);
+    setTestcases((t) => t.map((tc) => ({ ...tc, status: "PENDING" })));
+    try {
+      const response = await axios.post(`/api/submission/`, {
+        code: code[language],
+        languageId: language,
+        problemId: problem.id,
+        activeContestId: contestId,
+        token: token,
+      });
+      pollWithBackoff(response.data.id, 10);
+    } catch (e) {
+      //@ts-ignore
+      toast.error(e.response.statusText);
+      setStatus(SubmitStatus.SUBMIT);
+    }
+  }
   return (
-    <div>
-       {/* Top Editor Bar  */}
-      <div className="flex justify-between px-2 border-b border-gray-300 dark:bg-slate">
-        <Select
-          value={language}
-          defaultValue="js"
-          onValueChange={(value) => setLanguage(value)}
-        >
-          <SelectTrigger className="w-[100px] dark:bg-slate">
-            <SelectValue className="font-semibold" placeholder="C++" />
-          </SelectTrigger>
-          <SelectContent className="dark:bg-slate">
-            <SelectGroup>
-              {Object.keys(LANGUAGE_MAPPING).map((language) => (
-                <SelectItem key={language} value={language}>
-                  {LANGUAGE_MAPPING[language]?.name}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <div className="flex justify-center font-semibold items-center gap-2 text-green-500">
-          <FaCode />
-          <button
-            type="submit"
-          >
-            Submit
-          </button>
-        </div>
+    <ResizablePanel defaultSize={50}>
+      <ResizablePanelGroup direction="vertical">
+        <ResizablePanel defaultSize={75}>
+          <div className="h-full border border-gray-500 rounded-md dark:bg-dark">
+            <div>
+              {/* Top Editor Bar  */}
+              <div className="flex justify-between px-2 py-0 border-b border-gray-300 dark:bg-slate">
+                <Select
+                  value={language}
+                  defaultValue="js"
+                  onValueChange={(value) => setLanguage(value)}
+                >
+                  <SelectTrigger className="w-[100px] dark:bg-slate">
+                    <SelectValue className="font-semibold" placeholder="C++" />
+                  </SelectTrigger>
+                  <SelectContent className="dark:bg-slate">
+                    <SelectGroup>
+                      {Object.keys(LANGUAGE_MAPPING).map((language) => (
+                        <SelectItem key={language} value={language}>
+                          {LANGUAGE_MAPPING[language]?.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <div className="flex justify-center font-semibold items-center gap-2 text-green-500">
 
-      </div>
-      {/* Code Editor */}     
-      <Editor
-        height={"80vh"}
-        value={code[language]}
-        theme="vs-dark"
-        onMount={() => {}}
-        options={{
-          fontSize: 19,
-          scrollBeyondLastLine: false,
-        }}
-        language={LANGUAGE_MAPPING[language]?.monaco}
-        onChange={(value) => {
-          //@ts-ignore
-          setCode({ ...code, [language]: value });
-        }}
-        defaultLanguage="javascript"
-      />
+                  {process.env.NODE_ENV === "production" ? (
+                    <Turnstile
+                      onSuccess={(token: string) => {
+                        setToken(token);
+                      }}
+                      siteKey={TURNSTILE_SITE_KEY}
+                    />
+                  ) : null}
 
-    </div>
+                  <FaCode />
+                  <button
+                    disabled={status === SubmitStatus.PENDING}
+                    type="submit"
+                    onClick={submit}
+                    className=""
+                  >
+                    Submit
+                    
+                  </button>
+                </div>
+
+              </div>
+              {/* Code Editor */}
+              <Editor
+                height={"80vh"}
+                value={code[language]}
+                theme="vs-dark"
+                onMount={() => { }}
+                options={{
+                  fontSize: 19,
+                  scrollBeyondLastLine: false,
+                }}
+                language={LANGUAGE_MAPPING[language]?.monaco}
+                onChange={(value) => {
+                  //@ts-ignore
+                  setCode({ ...code, [language]: value });
+                }}
+                defaultLanguage="javascript"
+              />
+
+            </div>
+          </div>
+        </ResizablePanel>
+        <ResizableHandle />
+        <ResizablePanel defaultSize={25}>
+          <div className="h-full border border-gray-500 rounded-md dark:bg-dark">
+            <div className="flex flex-row items-center gap-2 py-2 px-2 border-b border-gray-300 dark:bg-slate">
+              <GoCodeSquare className="text-green-400 text-xl" />
+              <h6 className="font-semibold">Testcases</h6>
+            </div>
+          </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
+    </ResizablePanel>
   )
 }
-
 export default CodeEditor
+

@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import {handleCredentialsLogIn} from "@/app/actions/authActions"
+import { handleCredentialsLogIn } from "@/app/actions/authActions"
 import { logInSchema } from '@repo/common/zod';
 import { useState } from 'react';
 
@@ -37,8 +37,8 @@ const Login = () => {
         toast.warn(`${validSchema.error.errors[0].message}`)
         return
       }
-  
-      const result = await handleCredentialsLogIn({email: validSchema.data.email, password: validSchema.data.password});
+
+      const result = await handleCredentialsLogIn({ email: validSchema.data.email, password: validSchema.data.password });
       if (result?.message) {
         setGlobalError(result.message);
         toast.warn(result.message)
@@ -60,7 +60,7 @@ const Login = () => {
           }}
         ></div>
         <div className="w-full p-8 lg:w-1/2">
-          <h2 className="text-3xl md:text-2xl font-semibold text-gray-700 dark:text-gray-200 text-center uppercase">
+          <h2 className="text-3xl md:text-3xl font-semibold text-gray-700 dark:text-gray-200 text-center uppercase">
             codeside
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-400 text-center">let's code!</p>
@@ -99,11 +99,11 @@ const Login = () => {
           </form>
 
           <div className="flex items-center justify-center text-gray-700 mt-4">
-            <span>Don't have an account ? </span>
-            <Link href="/signup" className="text-gray-700 px-2">
+            <span className="dark:text-gray-400">Don't have an account ? </span>
+            <Link href="/signup" className="text-gray-700 dark:text-gray-500 underline px-2">
               Sign Up
             </Link>
-            <Link href="/forget-password" className="text-gray-700 px-2">
+            <Link href="/forget-password" className="text-gray-700 px-2 dark:text-gray-500 underline">
               Forget Password?
             </Link>
 
@@ -121,6 +121,7 @@ const Login = () => {
           <div className="flex flex-col justify-center items-center" >
 
             <Link
+              onClick={() => { toast.dark("This auth method is coming soon.") }}
               href="#"
               className="flex w-fit items-center justify-center mt-4 text-white rounded-lg shadow-md dark:bg-dark hover:bg-gray-100"
             >
@@ -132,6 +133,7 @@ const Login = () => {
               </h1>
             </Link>
             <Link
+              onClick={() => { toast.dark("This auth method is coming soon.") }}
               href="#"
               className="flex w-fit items-center justify-center mt-4 text-white rounded-lg shadow-md dark:bg-dark hover:bg-gray-100"
             >

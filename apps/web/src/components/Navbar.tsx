@@ -41,7 +41,7 @@ const Navbar: React.FC = () => {
                         <li><Link href="/" >Home</Link></li>
                         <li><Link href="/problemset" >Problems</Link></li>
                         <li><Link href="/contests" >Contests</Link></li>
-                        <li><Link href="/contact" >Contact</Link></li>
+                        
                     </ul>
                 </div>
                 <div className="text-[16px] flex flex-col md:flex-row gap-2 items-center" >
@@ -77,7 +77,7 @@ const Navbar: React.FC = () => {
                     <li><Link href={"/"} >Home</Link></li>
                     <li><Link href={"/problemset"} >Problems</Link></li>
                     <li><Link href={"/contests"} >Contests</Link></li>
-                    <li><Link href={"/contact"} >Contact</Link></li>
+
                     {
                         !session ? (
 

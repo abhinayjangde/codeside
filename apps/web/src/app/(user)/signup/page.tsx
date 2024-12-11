@@ -1,6 +1,6 @@
 "use client"
 
-import credentialSignup from "@/actions/signup";
+import {credentialSignup} from "@/app/actions/authActions";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
