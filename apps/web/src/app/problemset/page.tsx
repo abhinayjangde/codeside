@@ -5,8 +5,10 @@ import codeside75 from "../../../public/studyplan/codeside-75.png"
 import daysjs30 from "../../../public/studyplan/30-days-of-javascript.png"
 // import { useSession } from "next-auth/react"
 import Calender from '@/components/Calender';
-const ProblemSet = () => {
-  
+import {auth} from "@/auth"
+const ProblemSet = async () => {
+  const session = await auth()
+  console.log(session)
   return (
     <>
       <div className="min-h-screen w-full dark:bg-black bg-white dark:bg-grid-white/[0.1] bg-grid-black/[0.1]">
