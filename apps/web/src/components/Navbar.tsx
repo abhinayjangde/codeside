@@ -7,7 +7,7 @@ import { IoMdClose } from "react-icons/io";
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSession } from "next-auth/react"
-import { signOut } from "next-auth/react"
+import { handleLogOut } from "@/app/actions/authActions";
 const Navbar: React.FC = () => {
     const { data: session } = useSession()
     const { setTheme } = useTheme();
@@ -47,13 +47,16 @@ const Navbar: React.FC = () => {
                 <div className="text-[16px] flex flex-col md:flex-row gap-2 items-center" >
                     <ul className="hidden md:flex flex-col md:flex-row gap-2">
                         {
-                            session?.user ? (
-                                <button onClick={()=>{ signOut()}} >Logout</button>
-                            ) : (
+                            !session ? (
+
                                 <>
                                     <li><Link href={"/signup"}>Signup</Link></li>
                                     <li><Link href={"/login"}>Login</Link></li>
                                 </>
+                            ) : (
+                                <form action={handleLogOut}>
+                                    <button type="submit" >Logout</button>
+                                </form>
                             )
                         }
                     </ul>
@@ -76,13 +79,16 @@ const Navbar: React.FC = () => {
                     <li><Link href={"/contests"} >Contests</Link></li>
                     <li><Link href={"/contact"} >Contact</Link></li>
                     {
-                        session?.user ? (
-                            <li><button >Logout</button></li>
-                        ) : (
+                        !session ? (
+
                             <>
                                 <li><Link href={"/signup"}>Signup</Link></li>
                                 <li><Link href={"/login"}>Login</Link></li>
                             </>
+                        ) : (
+                            <form action={handleLogOut}>
+                                <button type="submit" >Logout</button>
+                            </form>
                         )
                     }
 
