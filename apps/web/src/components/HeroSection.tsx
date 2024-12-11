@@ -17,13 +17,13 @@ const HeroSection:React.FC = () => {
         <div className="flex justify-center flex-col md:flex-row gap-4 mt-4">
           <Link
             href={"/problemset"}
-            className="border-[1px] border-gray-600 px-4 py-2 rounded-sm bg-[#4E7AFF]"
+            className="border-[1px] text-white border-gray-600 bg-gray-700 hover:bg-gray-800 px-4 py-2 rounded-sm"
           >
             Start Solving{" "}
           </Link>
           <Link
             href={"/#features"}
-            className="border-[1px] border-gray-600 px-4 py-2 rounded-sm"
+            className="border-[1px] border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800  px-4 py-2 rounded-sm"
           >
             Explore Features
           </Link>

@@ -1,91 +1,153 @@
 "use client"
-import credentialLogin from '@/actions/login'
+
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import React from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import {handleCredentialsLogIn} from "@/app/actions/authActions"
+import { logInSchema } from '@repo/common/zod';
+import { useState } from 'react';
 
-const Login: React.FC = () => {
-  const [loading,setLoading] = React.useState(false)
-  const router = useRouter()
+const Login = () => {
+
+  const [globalError, setGlobalError] = useState<string>("")
+
+  const handleLogIn = async (formData: FormData) => {
+    try {
+      let form = {
+        email: formData.get("email") as string,
+        password: formData.get("password") as string
+      }
+      if (!form.email && !form.password) {
+        toast.warn("Please enter your credentials.")
+        return
+      }
+      else if (!form.email) {
+        toast.warn("Please enter your email.")
+        return
+      }
+      else if (!form.password) {
+        toast.warn("Please enter your password.")
+        return
+      }
+      const validSchema = logInSchema.safeParse(form)
+
+      if (!validSchema.success) {
+        toast.warn(`${validSchema.error.errors[0].message}`)
+        return
+      }
   
+      const result = await handleCredentialsLogIn({email: validSchema.data.email, password: validSchema.data.password});
+      if (result?.message) {
+        setGlobalError(result.message);
+        toast.warn(result.message)
+      }
+    } catch (error) {
+      toast.warn("An unexpected error occurred. Please try again.")
+      console.log("An unexpected error occurred. Please try again.");
+    }
+  };
   return (
-
-    <section className="text-gray-600 body-font">
+    <div className="py-16 md:py-44  dark:bg-black md:dark:bg-dark ">
       <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
-
-      <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
-        <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
-          <h1 className="title-font font-medium text-3xl text-gray-900 dark:text-gray-100">
-            Slow-carb next level shoindcgoitch ethical authentic, poko scenester
-          </h1>
-          <p className="leading-relaxed mt-4 text-gray-900 dark:text-gray-100">
-            Poke slow-carb mixtape knausgaard, typewriter street art gentrify
-            hammock starladder roathse. Craies vegan tousled etsy austin.
-          </p>
-        </div>
-        <div className="lg:w-2/6 md:w-1/2 bg-gray-100 dark:bg-gray-800 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
-          <h2 className="text-gray-900 dark:text-gray-100 text-lg font-medium title-font mb-5"> 
-            Login
+      <div className="flex bg-white dark:bg-black rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl">
+        <div
+          className="hidden lg:block lg:w-1/2 bg-cover"
+          style={{
+            backgroundImage:
+              'url("https://images.unsplash.com/photo-1546514714-df0ccc50d7bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=667&q=80")'
+          }}
+        ></div>
+        <div className="w-full p-8 lg:w-1/2">
+          <h2 className="text-3xl md:text-2xl font-semibold text-gray-700 dark:text-gray-200 text-center uppercase">
+            codeside
           </h2>
-          <form action={async (formData: FormData) => {
-            const email = formData.get("email") as string | undefined
-            const password = formData.get("password") as string | undefined
-            if (!email || !password) {
-              toast.warn("Please enter you credentials.")
-              return
-            }
-            try {
-              setLoading(true)
-              const res = await credentialLogin(email!, password!)
-              if(res.success){
-                toast.success("Logged in successfully.")
-                setLoading(false)
-                setTimeout(()=>{
-                  router.push(`/u/${res.data?.email.split("@")[0]}`)
-                },3000)
-              }
-              toast.warn(res.error)
-              setLoading(false)
+          <p className="text-xl text-gray-600 dark:text-gray-400 text-center">let's code!</p>
 
-            } catch (error: any) {
-              toast.warn(error.message)
-            }
-          }}>
-
-            <div className="relative mb-4">
-              <label htmlFor="email" className="leading-7 text-sm text-gray-600">
+          <form action={handleLogIn} >
+            <div className="mt-4">
+              <label className="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2">
                 Email
               </label>
               <input
+                className="bg-gray-200 text-gray-700 dark:bg-dark dark:text-gray-200 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="email"
                 id="email"
                 name="email"
-                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
             </div>
-            <div className="relative mb-4">
-              <label htmlFor="password" className="leading-7 text-sm text-gray-600">
-                Password
-              </label>
+            <div className="mt-4">
+              <div className="flex justify-between">
+                <label className="block text-gray-700  dark:text-gray-400 text-sm font-bold mb-2">
+                  Password
+                </label>
+              </div>
               <input
+
+                className="bg-gray-200 dark:bg-dark dark:text-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="password"
                 id="password"
                 name="password"
-                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
             </div>
-            <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-              Login
-            </button>
+            <div className="mt-8">
+              <button type="submit" className="border-[1px] text-white border-gray-600 px-4 py-2 font-bold w-full rounded-sm bg-gray-700 hover:bg-gray-600">
+                Login
+              </button>
+            </div>
           </form>
-          <p className="text-md text-gray-500 mt-3">
-            Don't have an account?{" "} <Link href="/signup" className="text-indigo-500">Sign Up</Link>
-          </p>
+
+          <div className="flex items-center justify-center text-gray-700 mt-4">
+            <span>Don't have an account ? </span>
+            <Link href="/signup" className="text-gray-700 px-2">
+              Sign Up
+            </Link>
+            <Link href="/forget-password" className="text-gray-700 px-2">
+              Forget Password?
+            </Link>
+
+
+          </div>
+          {/* OAuth Sections  */}
+          <div className="mt-4 flex items-center justify-between">
+            <span className="border-b w-1/5 md:w-1/4" />
+            <Link href="#" className="text-xs text-gray-500 uppercase">
+              or
+            </Link>
+            <span className="border-b w-1/5 md:w-1/4" />
+          </div>
+
+          <div className="flex flex-col justify-center items-center" >
+
+            <Link
+              href="#"
+              className="flex w-fit items-center justify-center mt-4 text-white rounded-lg shadow-md dark:bg-dark hover:bg-gray-100"
+            >
+              <div className="px-4 py-3 text-2xl">
+                <FcGoogle />
+              </div>
+              <h1 className="px-4 py-3 w-5/6 text-center dark:text-gray-300 text-gray-600 font-bold">
+                Sign in with Google
+              </h1>
+            </Link>
+            <Link
+              href="#"
+              className="flex w-fit items-center justify-center mt-4 text-white rounded-lg shadow-md dark:bg-dark hover:bg-gray-100"
+            >
+              <div className="px-4 py-3 text-2xl">
+                <FaGithub className="dark:text-white text-black" />
+              </div>
+              <h1 className="px-4 py-3 w-5/6 text-center dark:text-gray-300 text-gray-600 font-bold">
+                Sign in with Github
+              </h1>
+            </Link>
+          </div>
+
         </div>
       </div>
-    </section>
+    </div>
+
 
   )
 }

@@ -14,7 +14,9 @@
     "./input": "./src/@/components/ui/input.tsx",
     "./form": "./src/@/components/ui/form.tsx",
     "./checkbox": "./src/@/components/ui/checkbox.tsx",
-    "./dropdown-menu": "./src/@/components/ui/dropdown-menu.tsx"
+    "./dropdown-menu": "./src/@/components/ui/dropdown-menu.tsx",
+    "./loading-button": "./src/@/components/ui/loading-button.tsx",
+    "./error-message": "./src/@/components/ui/error-message.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
