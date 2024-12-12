@@ -8,6 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useSession } from "next-auth/react"
 import { handleLogOut } from "@/app/actions/authActions";
+import { FaCode } from "react-icons/fa6";
 const Navbar: React.FC = () => {
     const { data: session } = useSession()
     const { setTheme } = useTheme();
@@ -17,27 +18,18 @@ const Navbar: React.FC = () => {
 
         <nav className="shadow-md w-full sticky top-0 z-10" >
             <div className="flex justify-between items-center px-2 py-1 md:px-2 md:py-2  bg-white dark:bg-dark">
-                <div className="flex items-center">
+                <div className="flex items-center gap-2">
                     <Link href={"/"} className="flex title-font font-medium items-center text-gray-900 mb-1 md:mb-0">
-                        <Image
-                            alt="logo"
-                            src="https://avatars.githubusercontent.com/u/142656125?v=4"
-                            width={100}
-                            height={100}
-                            decoding="async"
-                            data-nimg={1}
-                            className="w-10 rounded-full"
-                            loading="lazy"
-                            style={{ color: "transparent" }}
-                        />
-                        <span className="block sm:hidden dark:decoration-white underline-offset-8 ml-3 text-xl tracking-tighter text-black dark:text-gray-200 dark:hover:text-white">
-                            CS
+                        <span className="flex items-center gap-2 sm:hidden dark:decoration-white underline-offset-8 ml-3 text-xl tracking-tighter text-black dark:text-[#4E7AFF] dark:hover:text-whit">
+                        <FaCode/>
+                        <h5>CS</h5>
                         </span>
-                        <span className="hidden sm:block dark:decoration-white underline-offset-8 ml-3 text-xl tracking-tighter text-black dark:text-gray-200 dark:hover:text-white">
-                            CODESIDE
+                        <span className="hidden md:flex md:items-center md:gap-2 sm:block dark:decoration-white underline-offset-8 ml-3 text-xl tracking-tighter text-black dark:text-[#4E7AFF] dark:hover:text-white">
+                            <FaCode/>
+                            <h5> CODESIDE</h5>
                         </span>
                     </Link>
-                    <ul className="text-[16px] hidden md:flex items-center gap-2 mx-2">
+                    <ul className="text-[16px] hidden md:flex items-center gap-4 mx-2">
                         <li><Link href="/" >Home</Link></li>
                         <li><Link href="/problemset" >Problems</Link></li>
                         <li><Link href="/contests" >Contests</Link></li>
