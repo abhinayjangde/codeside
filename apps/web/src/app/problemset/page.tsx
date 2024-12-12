@@ -3,9 +3,9 @@ import ProblemTable from '@/components/ProblemTable'
 import topInterview150 from "../../../public/studyplan/top-interview-150.png"
 import codeside75 from "../../../public/studyplan/codeside-75.png"
 import daysjs30 from "../../../public/studyplan/30-days-of-javascript.png"
-// import { useSession } from "next-auth/react"
 import Calender from '@/components/Calender';
 import {auth} from "@/auth"
+
 const ProblemSet = async () => {
   const session = await auth()
   console.log(session)
