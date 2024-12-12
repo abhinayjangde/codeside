@@ -172,8 +172,12 @@ const CodeEditor = ({
                     onClick={submit}
                     className=""
                   >
-                    Submit
-                    
+                    {session?.user
+                      ? status === SubmitStatus.PENDING
+                        ? "Submitting"
+                        : "Submit"
+                      : "Login to submit"}
+
                   </button>
                 </div>
 

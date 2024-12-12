@@ -4,6 +4,31 @@ import Google from "next-auth/providers/google"
 import Credentials from "next-auth/providers/credentials"
 import { db } from "@/db"
 import bcryptjs from "bcryptjs";
+import { JWT } from "next-auth/jwt";
+import { JWTPayload, SignJWT, importJWK } from "jose";
+
+declare module "next-auth/jwt" {
+  /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
+  interface JWT {
+    /** OpenID ID Token */
+    idToken?: string;
+  }
+}
+
+// to solve PENDING problem 
+const generateJWT = async (payload: JWTPayload) => {
+  const secret = process.env.JWT_SECRET || "secret";
+
+  const jwk = await importJWK({ k: secret, alg: "HS256", kty: "oct" });
+
+  const jwt = await new SignJWT(payload)
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime("365d")
+    .sign(jwk);
+
+  return jwt;
+};
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   providers: [
@@ -27,17 +52,23 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           console.log("Invalid password");
           return null;
         }
-        
+        const jwt = await generateJWT({
+          id: user.id,
+        });
+
         return {
           id: user.id as string,
           email: user.email as string,
           role: user.role as string,
-          token: user.token as string,
+          token: jwt,
           name: user.name as string,
         };
       }
     })
   ],
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
     jwt({ token, user }) {
       if (user) {

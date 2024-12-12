@@ -1,13 +1,9 @@
-
-
 import { getProblem } from '@/db/problem'
 import {
     ResizableHandle,
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
-
-
 
 import { Metadata } from "next";
 import CodeEditor from '@/components/CodeEditor'
