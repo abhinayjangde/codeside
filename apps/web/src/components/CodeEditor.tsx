@@ -58,6 +58,15 @@ const CodeEditor = ({
   contestId?: string;
 }) => {
 
+  const [editorTheme, setEditorTheme] = useState("vs-dark");
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme) {
+      setEditorTheme(storedTheme === "dark" ? "vs-dark" : "vs-light");
+    }
+  }, [localStorage.getItem("theme")]);
+
   const [language, setLanguage] = useState(
     Object.keys(LANGUAGE_MAPPING)[0] as string
   );
@@ -186,7 +195,7 @@ const CodeEditor = ({
               <Editor
                 height={"80vh"}
                 value={code[language]}
-                theme="vs-dark"
+                theme={editorTheme}
                 onMount={() => { }}
                 options={{
                   fontSize: 19,

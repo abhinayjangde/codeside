@@ -5,7 +5,6 @@ import { VscColorMode } from "react-icons/vsc";
 import { IoMdMenu } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import Link from 'next/link';
-import Image from 'next/image';
 import { useSession } from "next-auth/react"
 import { handleLogOut } from "@/app/actions/authActions";
 import { FaCode } from "react-icons/fa6";
@@ -20,11 +19,11 @@ const Navbar: React.FC = () => {
             <div className="flex justify-between items-center px-2 py-1 md:px-2 md:py-2  bg-white dark:bg-dark">
                 <div className="flex items-center gap-2">
                     <Link href={"/"} className="flex title-font font-medium items-center text-gray-900 mb-1 md:mb-0">
-                        <span className="flex items-center gap-2 sm:hidden dark:decoration-white underline-offset-8 ml-3 text-xl tracking-tighter text-black dark:text-[#4E7AFF] dark:hover:text-whit">
+                        <span className="flex items-center gap-2 sm:hidden dark:decoration-white underline-offset-8 ml-3 text-xl tracking-tighter text-black dark:text-white">
                         <FaCode/>
                         <h5>CS</h5>
                         </span>
-                        <span className="hidden md:flex md:items-center md:gap-2 sm:block dark:decoration-white underline-offset-8 ml-3 text-xl tracking-tighter text-black dark:text-[#4E7AFF] dark:hover:text-white">
+                        <span className="hidden md:flex md:items-center md:gap-2 sm:block dark:decoration-white underline-offset-8 ml-3 text-xl tracking-tighter text-black dark:text-white">
                             <FaCode/>
                             <h5> CODESIDE</h5>
                         </span>
