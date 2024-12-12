@@ -7,10 +7,13 @@ import { db } from "@/db";
 import { auth } from "@/auth";
 import { rateLimit } from "@/lib/rateLimit";
 
+const SECRET_KEY = process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY!;
+const CLOUDFLARE_TURNSTILE_URL =
+  "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 const JUDGE0_URI = process.env.JUDGE0_URI || "https://judge.codebhaiya.com";
 
 export async function POST(req: NextRequest) {
-    const session = await auth()
+  const session = await auth()
   if (!session?.user) {
     return NextResponse.json(
       {
@@ -22,7 +25,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const userId = session.user.id;
+  const userId = session.user.id!;
   //using the ratelimt function from lib, 1 req per 10 seconds
 
   const isAllowed = await rateLimit(userId, 1, 10); // Limit to 1 requests per 10 seconds
@@ -112,7 +115,7 @@ export async function POST(req: NextRequest) {
 
   const submission = await db.submission.create({
     data: {
-      userId: session.user.id,
+      userId: session.user.id as string,
       problemId: submissionInput.data.problemId,
       code: submissionInput.data.code,
       activeContestId: submissionInput.data.activeContestId,
@@ -137,7 +140,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session?.user) {
     return NextResponse.json(
       {

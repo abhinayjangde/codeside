@@ -24,6 +24,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^11.11.10",
     "ioredis": "^5.4.1",
+    "jose": "^5.9.6",
     "lucide-react": "^0.447.0",
     "mini-svg-data-uri": "^1.4.4",
     "next": "15.0.4",
