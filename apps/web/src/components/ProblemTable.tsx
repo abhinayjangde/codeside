@@ -1,15 +1,12 @@
 import { getProblems } from "@/db/problem";
 import Link from "next/link"
 import { FiCheckCircle } from "react-icons/fi";
-import { redirect } from "next/navigation";
-import { Button } from "./ui/button";
 import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"

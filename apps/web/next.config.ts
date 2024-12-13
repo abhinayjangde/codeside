@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
       {
         hostname: "images.unsplash.com",
         protocol: "https",
+      },
+      {
+        hostname:"www.w3schools.com",
+        protocol: "https",
       }
     ],
   }

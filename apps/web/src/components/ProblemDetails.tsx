@@ -2,11 +2,7 @@
 import { MdDescription } from "react-icons/md";
 import { IoTimeOutline } from "react-icons/io5";
 import { AiOutlineExperiment } from "react-icons/ai";
-import {
-    ResizableHandle,
-    ResizablePanel,
-    ResizablePanelGroup,
-} from "@/components/ui/resizable"
+import {ResizablePanel} from "@/components/ui/resizable"
 import ProblemDescription from '@/components/ProblemDescription'
 import { useState } from "react";
 

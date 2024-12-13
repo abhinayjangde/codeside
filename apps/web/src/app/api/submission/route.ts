@@ -5,7 +5,7 @@ import axios from "axios";
 import { LANGUAGE_MAPPING } from "@repo/common/languages";
 import { db } from "@/db";
 import { auth } from "@/auth";
-import { rateLimit } from "@/lib/rateLimit";
+// import { rateLimit } from "@/lib/rateLimit";
 
 const SECRET_KEY = process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY!;
 const CLOUDFLARE_TURNSTILE_URL =
@@ -25,10 +25,10 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const userId = session.user.id!;
+  // const userId = session.user.id as string;
   //using the ratelimt function from lib, 1 req per 10 seconds
 
-  const isAllowed = await rateLimit(userId, 1, 10); // Limit to 1 requests per 10 seconds
+  // const isAllowed = await rateLimit(userId, 1, 10); // Limit to 1 requests per 10 seconds
   // if (!isAllowed && process.env.NODE_ENV === "production") {
   //   return NextResponse.json(
   //     {
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  let formData = new FormData();
+  const formData = new FormData();
   formData.append("secret", SECRET_KEY);
   formData.append("response", submissionInput.data.token);
 
@@ -166,7 +166,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  var submission = await db.submission.findUnique({
+  const submission = await db.submission.findUnique({
     where: {
       id: submissionId,
     },

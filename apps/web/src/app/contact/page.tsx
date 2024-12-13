@@ -1,9 +1,6 @@
-"use client";
-import { useState } from "react";
-
 
 const Contact: React.FC = () => {
-  const [loading, setLoading] = useState(false);
+
   return (
     <section className="sm:h-[50rem] text-gray-600 dark:text-white dark:bg-dark body-font relative">
       <div className="container px-5 py-24 mx-auto">
@@ -60,7 +57,7 @@ const Contact: React.FC = () => {
               </div>
             </div>
             <div className="p-2 w-full">
-              {
+              {/* {
                 loading ? (
                   <button disabled className="flex mx-auto uppercase transition duration-150 ease-in-out disabled:opacity-70 text-black dark:text-white border dark:border-white border-black py-2 px-8 focus:outline-none  rounded text-lg">
                     <div
@@ -69,13 +66,13 @@ const Contact: React.FC = () => {
                     <span className="ml-3 text-lg">Loading...</span>
                   </button>
 
-                ) : (
+                ) : ( */}
 
                   <button className="flex mx-auto border-[1px] border-gray-600 text-black dark:text-white px-4 py-2 rounded-sm bg-[#4E7AFF]">
                     Submit
                   </button>
-                )
-              }
+                {/* )
+              } */}
             </div>
           
           </div>

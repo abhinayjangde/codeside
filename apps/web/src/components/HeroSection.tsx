@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import Image from 'next/image'
 
 const HeroSection:React.FC = () => {
   return (
@@ -31,16 +32,20 @@ const HeroSection:React.FC = () => {
       </div>
       <div className="">
         {/* Light Mode Image */}
-        <img
+        <Image
           className="block dark:hidden "
           src="/HeroSectionLightImage.svg"
           alt="Light mode hero image"
+          width={980}
+          height={980}
         />
         {/* Dark Mode Image */}
-        <img
+        <Image
           className="hidden dark:block "
           src="/HeroSectionDarkImage.svg"
           alt="Dark mode hero image"
+          width={980}
+          height={980}
         />
       </div>
     </div>

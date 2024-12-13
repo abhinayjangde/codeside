@@ -2,12 +2,12 @@
 import { useEffect, useState } from "react";
 import { LANGUAGE_MAPPING } from "@repo/common/languages";
 import Editor from "@monaco-editor/react";
+import { submissions as SubmissionsType } from "@prisma/client";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
@@ -16,15 +16,14 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
+import { CheckIcon, CircleX, ClockIcon } from "lucide-react";
 import { GoCodeSquare } from "react-icons/go";
 import { FaCode } from "react-icons/fa6";
-import { submissions as SubmissionsType } from "@prisma/client";
+// import { submissions as SubmissionsType } from "@prisma/client";
 import { Turnstile } from "@marsidev/react-turnstile";
-import { Label } from "@repo/ui/label";
 import { useSession } from "next-auth/react"
-import { Button } from "./ui/button";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import {toast } from 'react-toastify'; //ToastContainer
 import 'react-toastify/dist/ReactToastify.css';
 
 const TURNSTILE_SITE_KEY =
@@ -72,7 +71,7 @@ const CodeEditor = ({
   );
   const [code, setCode] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<string>(SubmitStatus.SUBMIT);
-  const [testcases, setTestcases] = useState<any[]>([]);
+  const [testcases, setTestcases] = useState<SubmissionsType[]>([]);
   const [token, setToken] = useState<string>("");
   const { data: session } = useSession()
 
@@ -131,8 +130,7 @@ const CodeEditor = ({
         token: token,
       });
       pollWithBackoff(response.data.id, 10);
-    } catch (e) {
-      //@ts-ignore
+    } catch (e:any) {
       toast.error(e.response.statusText);
       setStatus(SubmitStatus.SUBMIT);
     }
@@ -196,14 +194,14 @@ const CodeEditor = ({
                 height={"80vh"}
                 value={code[language]}
                 theme={editorTheme}
-                onMount={() => { }}
+                onMount={() => {}}
                 options={{
                   fontSize: 19,
                   scrollBeyondLastLine: false,
                 }}
                 language={LANGUAGE_MAPPING[language]?.monaco}
                 onChange={(value) => {
-                  //@ts-ignore
+                  //@ts-expect-error
                   setCode({ ...code, [language]: value });
                 }}
                 defaultLanguage="javascript"
@@ -219,6 +217,11 @@ const CodeEditor = ({
               <GoCodeSquare className="text-green-400 text-xl" />
               <h6 className="font-semibold">Testcases</h6>
             </div>
+            <div>
+              
+                <RenderTestcase testcases={testcases} />
+             
+            </div>
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>
@@ -226,4 +229,46 @@ const CodeEditor = ({
   )
 }
 export default CodeEditor
+
+
+function renderResult(status: number | null) {
+  switch (status) {
+    case 1:
+      return <ClockIcon className="h-6 w-6 text-yellow-500" />;
+    case 2:
+      return <ClockIcon className="h-6 w-6 text-yellow-500" />;
+    case 3:
+      return <CheckIcon className="h-6 w-6 text-green-500" />;
+    case 4:
+      return <CircleX className="h-6 w-6 text-red-500" />;
+    case 5:
+      return <ClockIcon className="h-6 w-6 text-red-500" />;
+    case 6:
+      return <CircleX className="h-6 w-6 text-red-500" />;
+    case 13:
+      return <div className="text-gray-500">Internal Error!</div>;
+    case 14:
+      return <div className="text-gray-500">Exec Format Error!</div>;
+    default:
+      return <div className="text-gray-500">Runtime Error!</div>;
+  }
+}
+
+function RenderTestcase({ testcases }: { testcases: SubmissionsType[] }) {
+  return (
+    <div className="grid grid-cols-6 gap-4">
+      {testcases.map((testcase, index) => (
+        <div key={index} className="border rounded-md">
+          <div className="px-2 pt-2 flex justify-center">
+            <div className="">Test #{index + 1}</div>
+          </div>
+          <div className="p-2 flex justify-center">
+            {renderResult(testcase.status_id)}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 
