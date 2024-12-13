@@ -1,4 +1,4 @@
-import React from 'react'
+import Image from "next/image";
 
 const PlatformFeatures: React.FC = () => {
     const Features = [
@@ -47,7 +47,7 @@ const PlatformFeatures: React.FC = () => {
                     Features
                 </div>
                 <div className="grid gap-2 grid-cols-1 md:grid-cols-2 p-2 ">
-                    {Features.map((lang: any, index: number) => (
+                    {Features.map((feature: { heading: string; description: string }, index: number) => (
                         <div
                             className={`border-[1px] rounded-md p-2 text-start gap-2 flex flex-col  ${index % 2 === 0 ? "mr-0" : "ml-0"
                                 }`}
@@ -55,11 +55,11 @@ const PlatformFeatures: React.FC = () => {
                         >
                             <div className="flex gap-2 items-center">
                                 <div>
-                                    <img src="/LinkArrowFeature.svg" alt="back" />
+                                    <Image width={20} height={20} src="/LinkArrowFeature.svg" alt="back" />
                                 </div>
-                                <div className="font-bold">{lang.heading}</div>
+                                <div className="font-bold">{feature.heading}</div>
                             </div>
-                            <div className="text-gray-500">{lang.description}</div>
+                            <div className="text-gray-500">{feature.description}</div>
                         </div>
                     ))}
                 </div>

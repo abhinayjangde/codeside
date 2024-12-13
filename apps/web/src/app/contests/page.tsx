@@ -1,19 +1,25 @@
-import Link from 'next/link';
 import React from 'react';
+import Link from 'next/link';
 
-// Mock contest data - typically fetched from an API
-const contestData = [
+// Define types for contests
+interface Contest {
+  id: string;
+  title: string;
+  startDate: string;
+  duration: string;
+}
+
+const contestData: Contest[] = [
   { id: '1', title: 'CodeChef Monthly Challenge', startDate: '2024-11-25T10:00:00', duration: '48' },
   { id: '2', title: 'Beginner Blitz', startDate: '2024-12-05T15:00:00', duration: '2' },
   { id: '3', title: 'Advanced Algorithms Showdown', startDate: '2024-12-15T08:00:00', duration: '3' },
   { id: '4', title: 'Past Coding Challenge', startDate: '2024-10-20T10:00:00', duration: '5' },
 ];
 
-// Get time remaining until start
-const getTimeRemaining = (startDate: any) => {
-  const start: any = new Date(startDate);
-  const now: any = new Date();
-  const diff: any = start - now;
+const getTimeRemaining = (startDate: string): string => {
+  const start = new Date(startDate).getTime();
+  const now = Date.now();
+  const diff = start - now;
 
   if (diff <= 0) return "Started";
 
@@ -23,121 +29,84 @@ const getTimeRemaining = (startDate: any) => {
   return `${days}d ${hours}h ${minutes}m`;
 };
 
-// Separate upcoming and past contests
-const getUpcomingContests = () => {
-  const currentDate = new Date();
-  return contestData.filter((contest) => new Date(contest.startDate) >= currentDate);
-};
-
-const getPastContests = () => {
-  const currentDate = new Date();
-  return contestData.filter((contest) => new Date(contest.startDate) < currentDate);
-};
-
 const ContestsPage: React.FC = () => {
-  const upcomingContests = getUpcomingContests();
-  const pastContests = getPastContests();
+  const upcomingContests = contestData.filter(
+    (contest) => new Date(contest.startDate) >= new Date()
+  );
+
+  const pastContests = contestData.filter(
+    (contest) => new Date(contest.startDate) < new Date()
+  );
 
   return (
-    <section className="bg-white dark:bg-dark py-10 md:py-20">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col gap-8">
-        {/* Main Heading */}
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center uppercase mb-8">
-          Contests
-        </h1>
+    <div className="min-h-screen bg-gray-50 dark:bg-black p-6">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-center uppercase mb-8">Coding Contests</h1>
 
-        {/* Upcoming Contests Section */}
-        <div className="w-full">
-          <h2 className="text-xl md:text-2xl font-semibold mb-4">Upcoming Contests</h2>
+        <section className="mb-12">
+          <h2 className="text-xl font-semibold mb-4">Upcoming Contests</h2>
           {upcomingContests.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="w-full table-auto border border-gray-200 dark:border-gray-700 shadow-md rounded-lg">
-                <thead className="bg-gray-100 dark:bg-gray-700">
-                  <tr>
-                    <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">ID</th>
-                    <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">Contest Name</th>
-                    <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">
-                      Start Date & Time (Starts In)
-                    </th>
-                    <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">Duration (hrs)</th>
-                    <th className="py-3 px-4 text-center text-gray-700 dark:text-gray-300 font-semibold">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {upcomingContests.map((contest) => (
-                    <tr key={contest.id} className="border-t border-gray-200 dark:border-gray-700">
-                      <td className="py-3 px-4 text-gray-900 dark:text-gray-200">{contest.id}</td>
-                      <td className="py-3 px-4 text-gray-900 dark:text-gray-200">{contest.title}</td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-400 whitespace-nowrap flex items-center">
-                        {new Date(contest.startDate).toLocaleString()}{" "}
-                        <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
-                          ({getTimeRemaining(contest.startDate)})
-                        </span>
-                      </td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-400">{contest.duration}</td>
-                      <td className="py-3 px-4 text-center">
-                        <Link
-                          href={`/contests/${contest.id}`}
-                          className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-                        >
-                          Join Contest
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <ContestTable contests={upcomingContests} showTimeRemaining />
           ) : (
-            <p className="text-gray-700 dark:text-gray-300 text-center mt-6">No upcoming contests at the moment.</p>
+            <p className="text-gray-600 dark:text-gray-400">No upcoming contests available.</p>
           )}
-        </div>
+        </section>
 
-        {/* Past Contests Section */}
-        <div className="w-full">
-          <h2 className="text-xl md:text-2xl font-semibold mb-4">Past Contests</h2>
+        <section>
+          <h2 className="text-xl font-semibold mb-4">Past Contests</h2>
           {pastContests.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="w-full table-auto border border-gray-200 dark:border-gray-700 shadow-md rounded-lg">
-                <thead className="bg-gray-100 dark:bg-gray-700">
-                  <tr>
-                    <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">ID</th>
-                    <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">Contest Name</th>
-                    <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">
-                      Start Date & Time
-                    </th>
-                    <th className="py-3 px-4 text-left text-gray-700 dark:text-gray-300 font-semibold">Duration (hrs)</th>
-                    <th className="py-3 px-4 text-center text-gray-700 dark:text-gray-300 font-semibold">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pastContests.map((contest) => (
-                    <tr key={contest.id} className="border-t border-gray-200 dark:border-gray-700">
-                      <td className="py-3 px-4 text-gray-900 dark:text-gray-200">{contest.id}</td>
-                      <td className="py-3 px-4 text-gray-900 dark:text-gray-200">{contest.title}</td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-400 whitespace-nowrap">
-                        {new Date(contest.startDate).toLocaleString()}
-                      </td>
-                      <td className="py-3 px-4 text-gray-600 dark:text-gray-400">{contest.duration}</td>
-                      <td className="py-3 px-4 text-center">
-                        <Link
-                          href={`/contests/${contest.id}`}
-                          className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-                        >
-                          View Contest
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <ContestTable contests={pastContests} showTimeRemaining={false} />
           ) : (
-            <p className="text-gray-700 dark:text-gray-300 text-center mt-6">No past contests available.</p>
+            <p className="text-gray-600 dark:text-gray-400">No past contests available.</p>
           )}
-        </div>
+        </section>
       </div>
-    </section>
+    </div>
+  );
+};
+
+interface ContestTableProps {
+  contests: Contest[];
+  showTimeRemaining: boolean;
+}
+
+const ContestTable: React.FC<ContestTableProps> = ({ contests, showTimeRemaining }) => {
+  return (
+    <div className="overflow-x-auto">
+      <table className="min-w-full table-auto border border-gray-200 dark:border-gray-700">
+        <thead className="bg-gray-100 dark:bg-gray-800">
+          <tr>
+            <th className="py-2 px-4 text-left">ID</th>
+            <th className="py-2 px-4 text-left">Contest Name</th>
+            <th className="py-2 px-4 text-left">Start Date & Time</th>
+            {showTimeRemaining && <th className="py-2 px-4 text-left">Starts In</th>}
+            <th className="py-2 px-4 text-left">Duration (hrs)</th>
+            <th className="py-2 px-4 text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {contests.map((contest) => (
+            <tr key={contest.id} className="border-t border-gray-200 dark:border-gray-700">
+              <td className="py-2 px-4">{contest.id}</td>
+              <td className="py-2 px-4">{contest.title}</td>
+              <td className="py-2 px-4">{new Date(contest.startDate).toLocaleString()}</td>
+              {showTimeRemaining && (
+                <td className="py-2 px-4">{getTimeRemaining(contest.startDate)}</td>
+              )}
+              <td className="py-2 px-4">{contest.duration}</td>
+              <td className="py-2 px-4 text-center">
+                <Link
+                  href={`/contests/${contest.id}`}
+                  className="text-blue-600 hover:underline"
+                >
+                  {showTimeRemaining ? "Join Contest" : "View Details"}
+                </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

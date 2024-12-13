@@ -1,23 +1,22 @@
 import { getProblem } from '@/db/problem'
 import {
     ResizableHandle,
-    ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
-
 
 import CodeEditor from '@/components/CodeEditor'
 import ProblemDetails from '@/components/ProblemDetails'
 
 
-const Problem = async ({ params }: { params: { problemId: string } }) => {
-
-    const { problemId } = params;
-    const problem = await getProblem(problemId);
-
-    if (!problem) {
-        return <div>Problem not found</div>;
-    }
+export default async function ProblemPage({params: { problemId }}: {
+  params: {
+    problemId: string;
+  };
+}) {
+  const problem = await getProblem(problemId);
+  if (!problem) {
+    return <div>Problem not found</div>;
+  }
 
     return (
         <ResizablePanelGroup
@@ -31,9 +30,7 @@ const Problem = async ({ params }: { params: { problemId: string } }) => {
             <CodeEditor problem={problem} />
 
         </ResizablePanelGroup>
-
     )
 }
 
-export default Problem
-
+export const dynamic = "force-dynamic";

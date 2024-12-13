@@ -7,15 +7,12 @@ import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { handleCredentialsLogIn } from "@/app/actions/authActions"
 import { logInSchema } from '@repo/common/zod';
-import { useState } from 'react';
 
 const Login = () => {
 
-  const [globalError, setGlobalError] = useState<string>("")
-
   const handleLogIn = async (formData: FormData) => {
     try {
-      let form = {
+      const form = {
         email: formData.get("email") as string,
         password: formData.get("password") as string
       }
@@ -40,7 +37,6 @@ const Login = () => {
 
       const result = await handleCredentialsLogIn({ email: validSchema.data.email, password: validSchema.data.password });
       if (result?.message) {
-        setGlobalError(result.message);
         toast.warn(result.message)
       }
     } catch (error) {
@@ -63,7 +59,7 @@ const Login = () => {
           <h2 className="text-3xl md:text-3xl font-semibold text-gray-700 dark:text-gray-200 text-center uppercase">
             codeside
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400 text-center">let's code!</p>
+          <p className="text-xl text-gray-600 dark:text-gray-400 text-center">let&apos;s code!</p>
 
           <form action={handleLogIn} >
             <div className="mt-4">
@@ -99,7 +95,7 @@ const Login = () => {
           </form>
 
           <div className="flex items-center justify-center text-gray-700 mt-4">
-            <span className="dark:text-gray-400">Don't have an account ? </span>
+            <span className="dark:text-gray-400">Don&apos;t have an account ? </span>
             <Link href="/signup" className="text-gray-700 dark:text-gray-500 underline px-2">
               Sign Up
             </Link>
