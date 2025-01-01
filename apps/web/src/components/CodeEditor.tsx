@@ -94,10 +94,8 @@ const CodeEditor = ({
       toast.error("Not able to get status ");
       return;
     }
-
     const response = await axios.get(`/api/submission/?id=${id}`);
 
-    console.log(response.data.submission);
     if (response.data.submission.status === "PENDING") {
       setTestcases(response.data.submission.testcases);
       await new Promise((resolve) => setTimeout(resolve, 2.5 * 1000));
@@ -129,8 +127,10 @@ const CodeEditor = ({
         activeContestId: contestId,
         token: token,
       });
+      console.log("submit response", response);
       pollWithBackoff(response.data.id, 10);
     } catch (e:any) {
+      //@ts-ignore
       toast.error(e.response.statusText);
       setStatus(SubmitStatus.SUBMIT);
     }
@@ -218,9 +218,7 @@ const CodeEditor = ({
               <h6 className="font-semibold">Testcases</h6>
             </div>
             <div>
-              
                 <RenderTestcase testcases={testcases} />
-             
             </div>
           </div>
         </ResizablePanel>
@@ -256,9 +254,9 @@ function renderResult(status: number | null) {
 
 function RenderTestcase({ testcases }: { testcases: SubmissionsType[] }) {
   return (
-    <div className="grid grid-cols-6 gap-4">
+    <div className="grid grid-cols-6 gap-4 m-2">
       {testcases.map((testcase, index) => (
-        <div key={index} className="border rounded-md">
+        <div key={index} className="border border-white/[0.2] rounded-sm">
           <div className="px-2 pt-2 flex justify-center">
             <div className="">Test #{index + 1}</div>
           </div>

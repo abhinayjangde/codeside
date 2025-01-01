@@ -24,7 +24,6 @@ export async function POST(req: NextRequest) {
       }
     );
   }
-
   // const userId = session.user.id as string;
   //using the ratelimt function from lib, 1 req per 10 seconds
 
@@ -41,6 +40,7 @@ export async function POST(req: NextRequest) {
   // }
 
   const submissionInput = SubmissionInput.safeParse(await req.json());
+
   if (!submissionInput.success) {
     return NextResponse.json(
       {
@@ -138,6 +138,7 @@ export async function POST(req: NextRequest) {
     }
   );
 }
+
 
 export async function GET(req: NextRequest) {
   const session = await auth();
