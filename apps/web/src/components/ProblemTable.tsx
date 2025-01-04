@@ -10,8 +10,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+
 const ProblemTable = async ({ query }: { query: string | null }) => {
   const problems = await getProblems(query ? query : undefined);
+
   return (
     <>
       <div className="flex flex-row py-1 gap-1">
@@ -23,8 +25,8 @@ const ProblemTable = async ({ query }: { query: string | null }) => {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="easy" className="text-yellow-400 cursor-pointer hover:bg-gray-100 dark:hover:bg-dark">Easy</SelectItem>
-                <SelectItem value="medium" className="text-green-400 cursor-pointer hover:bg-gray-100 dark:hover:bg-dark">Medium</SelectItem>
+                <SelectItem value="easy" className="text-green-400 cursor-pointer hover:bg-gray-100 dark:hover:bg-dark">Easy</SelectItem>
+                <SelectItem value="medium" className="text-yellow-400 cursor-pointer hover:bg-gray-100 dark:hover:bg-dark">Medium</SelectItem>
                 <SelectItem value="hard" className="text-red-500 cursor-pointer hover:bg-gray-100 dark:hover:bg-dark">Hard</SelectItem>
               </SelectGroup>
             </SelectContent>
@@ -85,7 +87,10 @@ const ProblemTable = async ({ query }: { query: string | null }) => {
                 <td className="px-4 py-2 dark:text-gray-200 w-full"><Link href={`/problem/${problem.id}`} className="w-full hover:text-blue-600 capitalize">{problem.title.split("-").join(" ")}</Link></td>
                 <td className="px-4 py-2 text-blue-500"><Link href={`/problem/${problem.id}`}>👀</Link></td>
                 <td className="px-4 py-2 dark:text-gray-200 hidden md:block">75%</td>
-                <td className="px-4 py-2 text-yellow-400 capitalize">{problem.difficulty.toLocaleLowerCase()}</td>
+                <td className={`px-4 py-2 capitalize ${problem.difficulty.toLocaleLowerCase() === 'easy' ? 'text-green-400' : problem.difficulty.toLocaleLowerCase() === 'medium' ? 'text-yellow-400' : 'text-red-500'}`}>
+                  {problem.difficulty.toLocaleLowerCase()}
+                </td>
+                {/* <td className="px-4 py-2 text-yellow-400 capitalize">{problem.difficulty.toLocaleLowerCase()}</td> */}
                 <td className="px-4 py-2 hover:cursor-pointer hidden md:block" title="Subscribe to Unlock">🔒</td>
               </tr>
             ))
