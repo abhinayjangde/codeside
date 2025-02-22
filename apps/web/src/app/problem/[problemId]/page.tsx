@@ -8,11 +8,8 @@ import CodeEditor from '@/components/CodeEditor'
 import ProblemDetails from '@/components/ProblemDetails'
 
 
-export default async function ProblemPage({params: { problemId }}: {
-  params: {
-    problemId: string;
-  };
-}) {
+export default async function ProblemPage({params}: {params: Promise<{problemId: string}>}) {
+  const {problemId} = await params;
   const problem = await getProblem(problemId);
   if (!problem) {
     return <div>Problem not found</div>;
