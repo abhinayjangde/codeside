@@ -1,5 +1,5 @@
-import { auth } from "../auth"
-import { db } from "./index";
+import { auth } from "@/auth"
+import { db } from "@/db";
 
 export const getContestPoints = async (
   contestId: string,

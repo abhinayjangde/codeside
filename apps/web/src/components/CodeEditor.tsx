@@ -22,7 +22,7 @@ import { FaCode } from "react-icons/fa6";
 // import { submissions as SubmissionsType } from "@prisma/client";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { useSession } from "next-auth/react"
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import {toast } from 'react-toastify'; //ToastContainer
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -57,15 +57,7 @@ const CodeEditor = ({
   contestId?: string;
 }) => {
 
-  const [editorTheme, setEditorTheme] = useState("vs-dark");
-
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    if (storedTheme) {
-      setEditorTheme(storedTheme === "dark" ? "vs-dark" : "vs-light");
-    }
-  }, [localStorage.getItem("theme")]);
-
+  
   const [language, setLanguage] = useState(
     Object.keys(LANGUAGE_MAPPING)[0] as string
   );
@@ -129,9 +121,9 @@ const CodeEditor = ({
       });
       console.log("submit response", response);
       pollWithBackoff(response.data.id, 10);
-    } catch (e:any) {
-      //@ts-ignore
-      toast.error(e.response.statusText);
+    } catch (e: any) {
+
+      toast.error(e.response?.statusText || "An error occurred");
       setStatus(SubmitStatus.SUBMIT);
     }
   }
@@ -193,7 +185,7 @@ const CodeEditor = ({
               <Editor
                 height={"80vh"}
                 value={code[language]}
-                theme={editorTheme}
+                theme="vs-dark"
                 onMount={() => {}}
                 options={{
                   fontSize: 19,
@@ -201,8 +193,7 @@ const CodeEditor = ({
                 }}
                 language={LANGUAGE_MAPPING[language]?.monaco}
                 onChange={(value) => {
-                  //@ts-expect-error
-                  setCode({ ...code, [language]: value });
+                  setCode({ ...code, [language]: value || "" });
                 }}
                 defaultLanguage="javascript"
               />

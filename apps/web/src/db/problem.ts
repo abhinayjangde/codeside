@@ -1,5 +1,5 @@
 import { Problem } from "@prisma/client";
-import { db } from ".";
+import { db } from "@/db";
 
 export const getProblem = async (problemId: string, contestId?: string) => {
   if (contestId) {

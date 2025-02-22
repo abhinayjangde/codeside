@@ -36,6 +36,23 @@ dark: "#262626" # page bg
 editor: "hsl(0deg 0% 14.9%)" #code editor bg
 slate: "hsl(0deg 0% 20%)" #editor top bar
 ```
+## How to Generate Boilerplate code
+
+First add some problems and then you can run this command.
+
+```bash
+cd /apps/boilerplate-generator
+pnpm run build
+pnpm run boiler:generate
+```
+
+Now to we have to add that problem into database for that
+
+```bash
+cd /packages/db
+pnpm run db:seed
+```
+
 
 ## Contributors
 
