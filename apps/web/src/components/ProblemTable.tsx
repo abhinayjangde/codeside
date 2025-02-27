@@ -45,7 +45,7 @@ const ProblemTable = () => {
         />
   
 
-        <div className="bg-white border dark:bg-black">
+        {/* <div className="bg-white border dark:bg-black">
           <Select>
             <SelectTrigger className="w-[120px] md:w-[180px] font-semibold text-black/[0.7] dark:text-white/[0.7]">
               <SelectValue placeholder="Difficulty" />
@@ -58,7 +58,7 @@ const ProblemTable = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
-        </div>
+        </div> */}
       </div>
 
 
