@@ -1,3 +1,4 @@
+"use server"
 import { Problem } from "@prisma/client";
 import { db } from "@/db";
 

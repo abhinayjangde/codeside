@@ -3,6 +3,7 @@ import ProblemTable from '@/components/ProblemTable'
 import Calender from '@/components/Calender';
 
 const ProblemSet = () => {
+
   return (
     <>
       <div className="min-h-screen w-full dark:bg-black bg-white dark:bg-grid-white/[0.1] bg-grid-black/[0.1]">
@@ -12,7 +13,7 @@ const ProblemSet = () => {
           {/* Problem Table Part  */}
           <div className="">
             <h1 className="uppercase text-3xl font-semibold my-4 px-2 bg-dark-layer-1 w-fit">Gems For Coders</h1>
-            <ProblemTable query={null} />
+            <ProblemTable />
           </div>
           {/* Calender Part  */}
           <div className="flex h-fit justify-center">
@@ -26,4 +27,3 @@ const ProblemSet = () => {
 }
 
 export default ProblemSet
-export const dynamic = "force-dynamic";
