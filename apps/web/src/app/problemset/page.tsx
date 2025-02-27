@@ -12,7 +12,7 @@ const ProblemSet = () => {
         <div className="flex flex-col md:flex-row justify-center gap-4 py-10 mx-2">
           {/* Problem Table Part  */}
           <div className="">
-            <h1 className="uppercase text-3xl font-semibold my-4 px-2 bg-dark-layer-1 w-fit">Gems For Codersss</h1>
+            <h1 className="uppercase text-3xl font-semibold my-4 px-2 bg-dark-layer-1 w-fit">Gems For Coders</h1>
             <ProblemTable />
           </div>
           {/* Calender Part  */}
