@@ -11,7 +11,8 @@
     "db:seed": "cd packages/db && pnpm dlx ts-node src/seed.ts",
     "db:generate": "cd packages/db && pnpm dlx prisma generate",
     "start:web": "cd apps/web && pnpm run start",
-    "start:sweeper": "cd apps/sweeper && pnpm run start"
+    "start:sweeper": "cd apps/sweeper && pnpm run start",
+    "db:question": "cd packages/db && pnpm dlx ts-node src/updateQuestion.ts"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
