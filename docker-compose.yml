@@ -22,7 +22,7 @@ services:
     volumes:
       - ./judge0.conf:/judge0.conf:ro
       - type: bind
-        source: "${PROBLEMS_PATH}"
+        source: ${PROBLEMS_PATH}
         target: /dev/problems
     ports:
       - "2358:2358"
@@ -38,7 +38,7 @@ services:
     volumes:
       - ./judge0.conf:/judge0.conf:ro
       - type: bind
-        source: "${PROBLEMS_PATH}"
+        source: ${PROBLEMS_PATH}
         target: /dev/problems
     privileged: true
     logging:

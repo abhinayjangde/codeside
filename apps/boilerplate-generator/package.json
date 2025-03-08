@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "pnpm esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js",
-    "boiler:generate": "pnpm run build && node dist/index.js"
+    "boiler:sooraj": "pnpm run build && node dist/index.js"
   },
   "keywords": [],
   "author": "",
