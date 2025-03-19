@@ -10,8 +10,32 @@ import { FcGoogle } from "react-icons/fc";
 
 const Signup: React.FC = () => {
   const router = useRouter();
-  return (
 
+  const handleSignup = async (formData: FormData) => {
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    if (!name || !email || !password) {
+      toast.warn("All fields are required.");
+      return;
+    }
+    try {
+      const res = await credentialSignup(name, email, password);
+      if (res.success) {
+        toast.success("Account created successfully.");
+        setTimeout(() => {
+          router.push("/verify");
+        }, 3000);
+      } else {
+        toast.warn("An error occurred during signup. Please try again.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
     <div className="py-16 md:py-32 dark:bg-black md:dark:bg-dark ">
       <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
 
@@ -30,30 +54,10 @@ const Signup: React.FC = () => {
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-400 text-center">join us!</p>
 
-          <form action={async (formData) => {
-            const name = formData.get("name") as string;
-            const email = formData.get("email") as string;
-            const password = formData.get("password") as string;
-
-            if (!name || !email || !password) {
-              toast.warn("All fields are required.");
-              return;
-            }
-            try {
-        
-              const res = await credentialSignup(name, email, password);
-              if (res.success) {
-                toast.success("Account created successfully.");
-                setTimeout(() => {
-                  router.push("/login");
-                }, 3000);
-              } else {
-                toast.warn(res?.error);
-              }
- 
-            } catch (error) {
-              console.log(error);
-            }
+          <form onSubmit={async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            await handleSignup(formData);
           }}>
             <div className="mt-4">
               <label className="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2">
@@ -147,8 +151,7 @@ const Signup: React.FC = () => {
         </div>
       </div>
     </div>
-
   )
 }
 
-export default Signup
+export default Signup;
