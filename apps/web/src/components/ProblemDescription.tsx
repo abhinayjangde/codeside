@@ -12,7 +12,6 @@ const ProblemDescription = ({ description }: { description: string }) => {
     const processContent = async () => {
       // Parse front matter
       const { data, content } = matter(description);
-      console.log(content)
 
       // Convert Markdown to HTML with syntax highlighting
       const processedContent = await remark()

@@ -22,7 +22,6 @@ const ProblemTable = () => {
   useEffect(() => {
     const fetchProblems = async () => {
       const problems = await getProblems();
-      console.log(problems)
       setProblems(problems)
     };
     fetchProblems();

@@ -119,7 +119,7 @@ const CodeEditor = ({
         activeContestId: contestId,
         token: token,
       });
-      console.log("submit response", response);
+      
       pollWithBackoff(response.data.id, 10);
     } catch (e: any) {
 
